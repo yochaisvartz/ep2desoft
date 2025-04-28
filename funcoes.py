@@ -47,4 +47,36 @@ def calcula_pontos_soma(listadados):
         soma += dado
     return soma
 
+# exercicio 6
+def calcula_pontos_sequencia_baixa(listadados):
+    for dado in listadados:
+        if dado == 1:
+            for dado in listadados:
+                if dado == 2:
+                    for dado in listadados:
+                        if dado == 3:
+                            for dado in listadados:
+                                if dado == 4:
+                                    return 15
+        if dado == 2:
+            for dado in listadados:
+                if dado == 3:
+                    for dado in listadados:
+                        if dado == 4:
+                            for dado in listadados:
+                                if dado == 5:
+                                    return 15
+        if dado == 3:
+            for dado in listadados:
+                if dado == 4:
+                    for dado in listadados:
+                        if dado == 5:
+                            for dado in listadados:
+                                if dado == 6:
+                                    return 15
+    else:
+        return 0
+        
+        
+
         
