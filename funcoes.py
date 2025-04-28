@@ -28,3 +28,15 @@ def remover_dado (listadados, dadosguardados, n):
             listadados.append(dadosguardados[i])
     listastatus = [listadados, newguardados]
     return listastatus
+
+# exercicio 4
+def calcula_pontos_regra_simples(listadados):
+    dicpontos = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0}
+    for dado in listadados:
+        if dado in listadados:
+            n = dado
+            dicpontos[n] += dado
+        else:
+            dicpontos[n] = dado
+    return dicpontos
+        
