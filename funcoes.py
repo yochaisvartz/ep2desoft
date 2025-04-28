@@ -76,6 +76,38 @@ def calcula_pontos_sequencia_baixa(listadados):
                                     return 15
     else:
         return 0
+
+# exercicio 7
+def calcula_pontos_sequencia_alta(listadados):
+    for dado in listadados:
+        if dado == 1:
+            for dado in listadados:
+                if dado == 2:
+                    for dado in listadados:
+                        if dado == 3:
+                            for dado in listadados:
+                                if dado == 4:
+                                    for dado in listadados:
+                                        if dado == 5:
+                                            return 30
+        if dado == 2:
+            for dado in listadados:
+                if dado == 3:
+                    for dado in listadados:
+                        if dado == 4:
+                            for dado in listadados:
+                                if dado == 5:
+                                    for dado in listadados:
+                                        if dado == 6:
+                                            return 30
+    return 0
+    
+
+                        
+
+                                    
+
+
         
         
 
