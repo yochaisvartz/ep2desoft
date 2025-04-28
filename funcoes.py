@@ -39,4 +39,12 @@ def calcula_pontos_regra_simples(listadados):
         else:
             dicpontos[n] = dado
     return dicpontos
+
+# exercicio 5
+def calcula_pontos_soma(listadados):
+    soma = 0
+    for dado in listadados:
+        soma += dado
+    return soma
+
         
