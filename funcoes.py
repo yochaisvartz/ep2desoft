@@ -123,6 +123,17 @@ def calcula_pontos_full_house(lista_dados):
                     return soma
                     
     return 0
+    #exercicio 9
+def calcula_pontos_quadra(lista_dados):
+    for dado in lista_dados:
+        quantidade = lista_dados.count(dado)
+        if quantidade >= 4:
+            soma = 0
+            for valor in lista_dados:
+                soma += valor
+            return soma
+    return 0
+
 
     
 
