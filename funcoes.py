@@ -101,6 +101,54 @@ def calcula_pontos_sequencia_alta(listadados):
                                         if dado == 6:
                                             return 30
     return 0
+
+#exercicio 8
+def calcula_pontos_full_house(lista_dados):
+    for dado_principal in lista_dados:
+        quantidade_principal = lista_dados.count(dado_principal)
+        
+        if quantidade_principal == 3:
+            for outro_dado in lista_dados:
+                if outro_dado != dado_principal and lista_dados.count(outro_dado) == 2:
+                    soma = 0
+                    for dado in lista_dados:
+                        soma += dado
+                    return soma
+                    
+        elif quantidade_principal == 2:
+            for outro_dado in lista_dados:
+                if outro_dado != dado_principal and lista_dados.count(outro_dado) == 3:
+                    soma = 0
+                    for dado in lista_dados:
+                        soma += dado
+                    return soma
+                    
+    return 0
+
+#exercicio 9
+def calcula_pontos_quadra(lista_dados):
+    for dado in lista_dados:
+        quantidade = lista_dados.count(dado)
+        if quantidade >= 4:
+            soma = 0
+            for valor in lista_dados:
+                soma += valor
+            return soma
+    return 0
+
+#exercicio 10
+def calcula_pontos_quina(listadados):
+    dicsoma = {}
+    for i in range(len(listadados)):
+        if listadados[i] in dicsoma:
+            dicsoma[listadados[i]] += 1
+        else:
+            dicsoma[listadados[i]] = 1  
+    for numero in dicsoma:    
+        if dicsoma[numero] >= 5:
+            return 50
+    return 0
+    
     
 
                         
