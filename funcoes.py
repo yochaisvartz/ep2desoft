@@ -147,6 +147,16 @@ def calcula_pontos_quina(listadados):
         if dicsoma[numero] >= 5:
             return 50
     return 0
+    #exercicio 11
+def calcula_pontos_regra_avancada(listadados):
+    newdic = {}
+    newdic['cinco_iguais'] = calcula_pontos_quina(listadados)
+    newdic['full_house'] = calcula_pontos_full_house(listadados)
+    newdic['quadra'] = calcula_pontos_quadra(listadados)
+    newdic['sem_combinacao'] = calcula_pontos_soma(listadados)
+    newdic['sequencia_alta'] = calcula_pontos_sequencia_alta(listadados)
+    newdic['sequencia_baixa'] = calcula_pontos_sequencia_baixa(listadados)
+    return newdic
 
     
 
