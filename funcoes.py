@@ -157,7 +157,7 @@ def calcula_pontos_regra_avancada(listadados):
     newdic['sequencia_alta'] = calcula_pontos_sequencia_alta(listadados)
     newdic['sequencia_baixa'] = calcula_pontos_sequencia_baixa(listadados)
     return newdic
-    exercicio 12
+    #exercicio 12
     def faz_jogada(dados, categoria, cartela_de_pontos):
     if str(categoria) in ['1', '2', '3', '4', '5', '6']:
         categoria_num = int(categoria)
