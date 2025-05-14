@@ -31,7 +31,7 @@ cadencia_tiro_vilao = 2
 
 # Vida do jogador
 vida = 100
-dano_tiro = 5
+dano_tiro_vilao = 10
 
 # Carregar a imagem do fundo
 try:
@@ -89,6 +89,14 @@ def criar_vilao():
     y = random.randint(0, altura - vilao_altura)
     return pygame.Rect(x, y, vilao_largura, vilao_altura)
 
+# Função para desenhar a barra de vida
+def desenhar_barra_vida(vida):
+    largura_barra = 200
+    altura_barra = 20
+    preenchimento = int((vida / 100) * largura_barra)
+    pygame.draw.rect(tela, vermelho, (10, 40, largura_barra, altura_barra))
+    pygame.draw.rect(tela, verde, (10, 40, preenchimento, altura_barra))
+
 # Função para desenhar na tela
 def desenhar():
     tela.blit(fundo, (0, 0))  # Fundo
@@ -108,6 +116,9 @@ def desenhar():
     for vilao in viloes:
         tela.blit(vilao_imagem, (vilao.x, vilao.y))
 
+    # Desenhar a barra de vida
+    desenhar_barra_vida(vida)
+
     # Exibir a pontuação
     texto = fonte.render(f"Pontos: {pontuacao}", True, branco)
     tela.blit(texto, (10, 10))
@@ -116,9 +127,10 @@ def desenhar():
 
 # Função principal do jogo
 def jogo():
-    global pontuacao, bruxo_y
+    global pontuacao, bruxo_y, vida
     clock = pygame.time.Clock()
     rodando = True
+    ultimo_tiro_vilao = time.time()
 
     while rodando:
         for evento in pygame.event.get():
@@ -143,9 +155,15 @@ def jogo():
         if len(viloes) < num_viloes:
             viloes.append(criar_vilao())
 
-        # Movimentação dos vilões
+        # Movimento e colisão dos vilões
         for vilao in viloes[:]:
             vilao.x -= vilao_velocidade
+
+            # Tiro do vilão
+            if time.time() - ultimo_tiro_vilao > cadencia_tiro_vilao:
+                tiro = pygame.Rect(vilao.x, vilao.y + vilao_altura // 2, 10, 5)
+                tiros_vilao.append(tiro)
+            ultimo_tiro_vilao = time.time()
 
             # Colisão com feitiços
             for feitico in feiticamentos[:]:
@@ -153,16 +171,20 @@ def jogo():
                     viloes.remove(vilao)
                     feiticamentos.remove(feitico)
                     pontuacao += 10
-                    break
 
-        # Movimentação dos feitiços
-        for feitico in feiticamentos[:]:
-            feitico.x += feitico_velocidade
-            if feitico.x > largura:
-                feiticamentos.remove(feitico)
+        # Verificar se o jogador foi atingido por um tiro
+        for tiro in tiros_vilao[:]:
+            tiro.x -= tiro_vilao_velocidade
+            if tiro.colliderect(pygame.Rect(bruxo_x, bruxo_y, bruxo_largura, bruxo_altura)):
+                vida -= dano_tiro_vilao
+                tiros_vilao.remove(tiro)
+                if vida <= 0:
+                    print("Game Over! Vida esgotada.")
+                    rodando = False
 
         desenhar()
         clock.tick(30)
 
 jogo()
 pygame.quit()
+ 

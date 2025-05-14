@@ -1,292 +1,162 @@
-# exercicio 1
+import pygame
 import random
-def rolar_dados(n):
-    listadados = []
-    for i in range(n):
-        numero = random.randint(1,6)
-        listadados.append(numero)
-    return listadados
+import sys
+import os
+import time
 
-# exercicio 2
-def guardar_dado (listadados, dadosguardados, n):
-    dadosrolados = []
-    for i in range(len(listadados)):
-        if i != n:
-            dadosrolados.append(listadados[i])
-    dadoarmazenado = listadados[n]
-    dadosguardados.append(dadoarmazenado)
-    listastatus = [dadosrolados, dadosguardados]
-    return listastatus
+# Inicialização do Pygame
+pygame.init()
 
-# exercicio 3
-def remover_dado (listadados, dadosguardados, n):
-    newguardados = []
-    for i in range(len(dadosguardados)):
-        if i != n:
-            newguardados.append(dadosguardados[i])
-        else:
-            listadados.append(dadosguardados[i])
-    listastatus = [listadados, newguardados]
-    return listastatus
+# Caminho da pasta atual
+base_path = os.path.dirname(os.path.abspath(__file__))
+imagens_path = os.path.join(base_path, "imagens")
 
-# exercicio 4
-def calcula_pontos_regra_simples(listadados):
-    dicpontos = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0}
-    for dado in listadados:
-        if dado in listadados:
-            n = dado
-            dicpontos[n] += dado
-        else:
-            dicpontos[n] = dado
-    return dicpontos
+# Configurações da tela
+largura, altura = 800, 600
+tela = pygame.display.set_mode((largura, altura))
+pygame.display.set_caption("Bruxo Invaders - Lateral")
 
-# exercicio 5
-def calcula_pontos_soma(listadados):
-    soma = 0
-    for dado in listadados:
-        soma += dado
-    return soma
+# Cores
+branco = (255, 255, 255)
+amarelo = (255, 255, 0)
+vermelho = (255, 0, 0)
+verde = (0, 255, 0)
 
-# exercicio 6
-def calcula_pontos_sequencia_baixa(listadados):
-    for dado in listadados:
-        if dado == 1:
-            for dado in listadados:
-                if dado == 2:
-                    for dado in listadados:
-                        if dado == 3:
-                            for dado in listadados:
-                                if dado == 4:
-                                    return 15
-        if dado == 2:
-            for dado in listadados:
-                if dado == 3:
-                    for dado in listadados:
-                        if dado == 4:
-                            for dado in listadados:
-                                if dado == 5:
-                                    return 15
-        if dado == 3:
-            for dado in listadados:
-                if dado == 4:
-                    for dado in listadados:
-                        if dado == 5:
-                            for dado in listadados:
-                                if dado == 6:
-                                    return 15
-    else:
-        return 0
+# Fonte para pontuação
+fonte = pygame.font.SysFont("Arial", 24)
+pontuacao = 0
 
-# exercicio 7
-def calcula_pontos_sequencia_alta(listadados):
-    for dado in listadados:
-        if dado == 1:
-            for dado in listadados:
-                if dado == 2:
-                    for dado in listadados:
-                        if dado == 3:
-                            for dado in listadados:
-                                if dado == 4:
-                                    for dado in listadados:
-                                        if dado == 5:
-                                            return 30
-        if dado == 2:
-            for dado in listadados:
-                if dado == 3:
-                    for dado in listadados:
-                        if dado == 4:
-                            for dado in listadados:
-                                if dado == 5:
-                                    for dado in listadados:
-                                        if dado == 6:
-                                            return 30
-    return 0
-#exercicio 8
-def calcula_pontos_full_house(lista_dados):
-    for dado_principal in lista_dados:
-        quantidade_principal = lista_dados.count(dado_principal)
-        
-        if quantidade_principal == 3:
-            for outro_dado in lista_dados:
-                if outro_dado != dado_principal and lista_dados.count(outro_dado) == 2:
-                    soma = 0
-                    for dado in lista_dados:
-                        soma += dado
-                    return soma
-                    
-        elif quantidade_principal == 2:
-            for outro_dado in lista_dados:
-                if outro_dado != dado_principal and lista_dados.count(outro_dado) == 3:
-                    soma = 0
-                    for dado in lista_dados:
-                        soma += dado
-                    return soma
-                    
-    return 0
+# Taxa de disparo dos vilões (um tiro a cada 2 segundos)
+cadencia_tiro_vilao = 2
+ultimo_tiro_vilao = time.time()
 
-#exercicio 9
-def calcula_pontos_quadra(lista_dados):
-    for dado in lista_dados:
-        quantidade = lista_dados.count(dado)
-        if quantidade >= 4:
-            soma = 0
-            for valor in lista_dados:
-                soma += valor
-            return soma
-    return 0
+# Vida do jogador
+vida = 100
+dano_tiro_vilao = 10
 
-    #exercicio 10
-def calcula_pontos_quina(listadados):
-    dicsoma = {}
-    for i in range(len(listadados)):
-        if listadados[i] in dicsoma:
-            dicsoma[listadados[i]] += 1
-        else:
-            dicsoma[listadados[i]] = 1  
-    for numero in dicsoma:    
-        if dicsoma[numero] >= 5:
-            return 50
-    return 0
-    #exercicio 11
-def calcula_pontos_regra_avancada(listadados):
-    newdic = {}
-    newdic['cinco_iguais'] = calcula_pontos_quina(listadados)
-    newdic['full_house'] = calcula_pontos_full_house(listadados)
-    newdic['quadra'] = calcula_pontos_quadra(listadados)
-    newdic['sem_combinacao'] = calcula_pontos_soma(listadados)
-    newdic['sequencia_alta'] = calcula_pontos_sequencia_alta(listadados)
-    newdic['sequencia_baixa'] = calcula_pontos_sequencia_baixa(listadados)
-    return newdic
-    #exercicio 12
-def faz_jogada(dados, categoria, cartela_de_pontos):
-    if str(categoria) in ['1', '2', '3', '4', '5', '6']:
-        categoria_num = int(categoria)
-        pontos = calcula_pontos_regra_simples(dados)[categoria_num]
-        cartela_de_pontos['regra_simples'][categoria_num] = pontos
-    else:
-        pontos = calcula_pontos_regra_avancada(dados)[categoria]
-        cartela_de_pontos['regra_avancada'][categoria] = pontos
-    return cartela_de_pontos
+# Carregar a imagem do fundo
+fundo = pygame.image.load(os.path.join(imagens_path, "fundo.png"))
+fundo = pygame.transform.scale(fundo, (largura, altura))
 
-# Exercicio 13
-from funcoes import imprime_cartela
-from funcoes import rolar_dados
-from funcoes import guardar_dado
-from funcoes import remover_dado
-from funcoes import calcula_pontos_regra_simples
-from funcoes import calcula_pontos_soma
-from funcoes import calcula_pontos_sequencia_baixa
-from funcoes import calcula_pontos_sequencia_alta
-from funcoes import calcula_pontos_full_house
-from funcoes import calcula_pontos_quadra
-from funcoes import calcula_pontos_quina
-from funcoes import calcula_pontos_regra_avancada
-from funcoes import faz_jogada
+# Carregar a imagem do bruxo (jogador)
+bruxo_imagem = pygame.image.load(os.path.join(imagens_path, "bruxo.png.png")).convert_alpha()
+bruxo_imagem = pygame.transform.scale(bruxo_imagem, (60, 60))
 
-cartela = {
-    'regra_simples': {1: -1, 2: -1, 3: -1, 4: -1, 5: -1, 6: -1},
-    'regra_avancada': {
-        'sem_combinacao': -1,
-        'quadra': -1,
-        'full_house': -1,
-        'sequencia_baixa': -1,
-        'sequencia_alta': -1,
-        'cinco_iguais': -1
-    }
-}
-imprime_cartela(cartela)
+# Carregar a imagem do tiro do bruxo
+tiro_imagem = pygame.image.load(os.path.join(imagens_path, "tiro.png.png")).convert_alpha()
+tiro_imagem = pygame.transform.scale(tiro_imagem, (30, 10))
 
-todas_categorias = ['1', '2', '3', '4', '5', '6', 'sem_combinacao', 'quadra', 'full_house', 'sequencia_baixa', 'sequencia_alta', 'cinco_iguais']
-categorias_utilizadas = []
-contador = 0
+# Carregar a imagem do vilão
+vilao_imagem = pygame.image.load(os.path.join(imagens_path, "vilao.png.jpg")).convert_alpha()
+vilao_imagem = pygame.transform.scale(vilao_imagem, (50, 50))
 
-while contador < 12:
-    numero_dados = 5
-    dados_rolados = rolar_dados(numero_dados)
-    dados_guardados = []
+# Configurações do Bruxo (Jogador)
+bruxo_largura, bruxo_altura = 60, 60
+bruxo_x = 20
+bruxo_y = altura // 2
+bruxo_velocidade = 5
 
-    print('Dados rolados:', dados_rolados)
-    print('Dados guardados:', dados_guardados)
-    print("Digite 1 para guardar um dado, 2 para remover um dado, 3 para rerrolar, 4 para ver a cartela ou 0 para marcar a pontuação:")
-    escolha = input(">")
+# Feitiços do Bruxo e dos Vilões
+feiticamentos = []
+tiros_vilao = []
+feitico_velocidade = 7
+tiro_vilao_velocidade = 5
 
-    numero_rerrolagens = 0
-    while escolha != '0':
-        if escolha == '1':
-            print("Digite o índice do dado a ser guardado (0 a 4):")
-            indice_guardar = int(input(">"))
-            while indice_guardar >= len(dados_rolados):
-                print("Índice inválido. Digite o índice do dado a ser guardado (0 a 4):")
-                indice_guardar = int(input(">"))
-            guardar_dado(dados_rolados, dados_guardados, indice_guardar)
-            print('Dados rolados:', dados_rolados)
-            print('Dados guardados:', dados_guardados)
+# Vilões
+viloes = []
+vilao_largura, vilao_altura = 50, 50
+num_viloes = 5
+vilao_velocidade = 3
 
-        elif escolha == '2':
-            print("Digite o índice do dado a ser removido (0 a 4):")
-            indice_remover = int(input(">"))
-            while indice_remover >= len(dados_guardados):
-                print("Índice inválido. Digite o índice do dado a ser removido (0 a 4):")
-                indice_remover = int(input(">"))
-            remover_dado(dados_rolados, dados_guardados, indice_remover)
-            print('Dados rolados:', dados_rolados)
-            print('Dados guardados:', dados_guardados)
+# Função para criar vilões
+def criar_vilao():
+    x = largura
+    y = random.randint(0, altura - vilao_altura)
+    return pygame.Rect(x, y, vilao_largura, vilao_altura)
 
-        elif escolha == '3':
-            if numero_rerrolagens == 2:
-                print("Você já usou todas as rerrolagens.")
-            else:
-                numero_rerrolagens += 1
-                numero_dados = len(dados_rolados)
-                dados_rolados = rolar_dados(numero_dados)
-            print('Dados rolados:', dados_rolados)
-            print('Dados guardados:', dados_guardados)
+# Função para desenhar a barra de vida
+def desenhar_barra_vida(vida):
+    largura_barra = 200
+    altura_barra = 20
+    preenchimento = int((vida / 100) * largura_barra)
+    pygame.draw.rect(tela, vermelho, (10, 40, largura_barra, altura_barra))
+    pygame.draw.rect(tela, verde, (10, 40, preenchimento, altura_barra))
 
-        elif escolha == '4':
-            imprime_cartela(cartela)
+# Função para desenhar na tela
+def desenhar():
+    tela.blit(fundo, (0, 0))
+    tela.blit(bruxo_imagem, (bruxo_x, bruxo_y))
 
-        else:
-            print("Opção inválida. Tente novamente.")
+    for feitico in feiticamentos:
+        tela.blit(tiro_imagem, (feitico.x, feitico.y))
 
-        print("Digite 1 para guardar um dado, 2 para remover um dado, 3 para rerrolar, 4 para ver a cartela ou 0 para marcar a pontuação:")
-        escolha = input(">")
+    for tiro in tiros_vilao:
+        pygame.draw.rect(tela, amarelo, tiro)
 
-    print("Digite a combinação desejada:")
-    categoria_escolhida = input(">")
+    for vilao in viloes:
+        tela.blit(vilao_imagem, (vilao.x, vilao.y))
 
-    while categoria_escolhida in categorias_utilizadas or categoria_escolhida not in todas_categorias:
-        if categoria_escolhida in categorias_utilizadas:
-            print("Essa combinação já foi utilizada.")
-        else:
-            print("Combinação inválida. Tente novamente.")
-        categoria_escolhida = input(">")
+    desenhar_barra_vida(vida)
+    texto = fonte.render(f"Pontos: {pontuacao}", True, branco)
+    tela.blit(texto, (10, 10))
+    pygame.display.flip()
 
-    categorias_utilizadas.append(categoria_escolhida)
+# Função principal do jogo
+def jogo():
+    global pontuacao, bruxo_y, vida, ultimo_tiro_vilao
+    clock = pygame.time.Clock()
+    rodando = True
 
-    todos_dados = dados_rolados + dados_guardados
-    cartela = faz_jogada(todos_dados, categoria_escolhida, cartela)
+    while rodando:
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
 
-    contador += 1
+            if evento.type == pygame.KEYDOWN:
+                if evento.key == pygame.K_SPACE:
+                    feitico = pygame.Rect(bruxo_x + bruxo_largura, bruxo_y + bruxo_altura // 2, 30, 10)
+                    feiticamentos.append(feitico)
 
-imprime_cartela(cartela)
+        teclas = pygame.key.get_pressed()
+        if teclas[pygame.K_UP] and bruxo_y > 0:
+            bruxo_y -= bruxo_velocidade
+        if teclas[pygame.K_DOWN] and bruxo_y < altura - bruxo_altura:
+            bruxo_y += bruxo_velocidade
 
-pontuacao_total = 0
-for tipo, pontuacoes in cartela.items():
-    for valor in pontuacoes.values():
-        pontuacao_total += int(valor)
+        if len(viloes) < num_viloes:
+            viloes.append(criar_vilao())
 
-if sum(cartela['regra_simples'].values()) >= 63:
-    pontuacao_total += 35
+        for vilao in viloes[:]:
+            vilao.x -= vilao_velocidade
 
-print("Pontuação total:", str(pontuacao_total))
+            if time.time() - ultimo_tiro_vilao > cadencia_tiro_vilao:
+                tiro = pygame.Rect(vilao.x, vilao.y + vilao_altura // 2, 10, 5)
+                tiros_vilao.append(tiro)
+            ultimo_tiro_vilao = time.time()
 
-    
+            for feitico in feiticamentos[:]:
+                if vilao.colliderect(feitico):
+                    viloes.remove(vilao)
+                    feiticamentos.remove(feitico)
+                    pontuacao += 10
 
-                        
+        for feitico in feiticamentos[:]:
+            feitico.x += feitico_velocidade
+            if feitico.x > largura:
+                feiticamentos.remove(feitico)
 
-                                    
+        for tiro in tiros_vilao[:]:
+            tiro.x -= tiro_vilao_velocidade
+            if tiro.colliderect(pygame.Rect(bruxo_x, bruxo_y, bruxo_largura, bruxo_altura)):
+                vida -= dano_tiro_vilao
+                tiros_vilao.remove(tiro)
+                if vida <= 0:
+                    print("Game Over! Vida esgotada.")
+                    rodando = False
 
-        
-        
+        desenhar()
+        clock.tick(30)
 
-        
+jogo()
+pygame.quit()
